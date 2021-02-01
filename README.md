@@ -1,0 +1,1 @@
+# nrfx_saadc_v2_multi_channel_ppi
