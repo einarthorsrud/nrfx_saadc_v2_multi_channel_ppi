@@ -133,17 +133,6 @@ static void ppi_init(void)
 
     err_code = nrfx_ppi_channel_enable(m_timer_saadc_ppi_channel);
     APP_ERROR_CHECK(err_code);
-
-    // Use PPI to trigger NRF_SAADC_TASK_START on NRF_SAADC_EVENT_END
-    err_code = nrfx_ppi_channel_alloc(&m_saadc_internal_ppi_channel);
-    APP_ERROR_CHECK(err_code);
-    err_code = nrfx_ppi_channel_assign(m_saadc_internal_ppi_channel, 
-                                       nrf_saadc_event_address_get(NRF_SAADC_EVENT_END),
-                                       nrf_saadc_task_address_get(NRF_SAADC_TASK_START));
-    APP_ERROR_CHECK(err_code);
-
-    err_code = nrfx_ppi_channel_enable(m_saadc_internal_ppi_channel);
-    APP_ERROR_CHECK(err_code);
 }
 
 
@@ -153,7 +142,7 @@ static void adc_configure(void)
 
     nrfx_saadc_adv_config_t saadc_adv_config = NRFX_SAADC_DEFAULT_ADV_CONFIG;
     saadc_adv_config.internal_timer_cc = 0;
-    saadc_adv_config.start_on_end = false;
+    saadc_adv_config.start_on_end = true;
 
     err_code = nrfx_saadc_init(NRFX_SAADC_CONFIG_IRQ_PRIORITY);
     APP_ERROR_CHECK(err_code);
